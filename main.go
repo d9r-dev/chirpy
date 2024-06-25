@@ -19,7 +19,8 @@ func main() {
 	mux.HandleFunc("GET /api/healthz", handlerReadiness)
 	mux.HandleFunc("GET /admin/metrics", apiCfg.handlerMetrics)
 	mux.HandleFunc("GET /api/reset", apiCfg.handlerReset)
-	server := &http.Server{Addr: ":" + port, Handler: mux,}
+	mux.HandleFunc("POST /api/validate_chirp", handleValidateChirpt)
+	server := &http.Server{Addr: ":" + port, Handler: mux}
 
 	log.Printf("Serving on port: %s\n", port)
 	log.Fatal(server.ListenAndServe())
